@@ -5,15 +5,50 @@ function konversi() {
   var latD = parseFloat(document.getElementById("latdegree").value);
   var latM = parseFloat(document.getElementById("latminutes").value);
   var latS = parseFloat(document.getElementById("latseconds").value);
+  var longRegion = document.querySelector('input[name="input_east_west"]:checked').value;
+  var latRegion = document.querySelector('input[name="input_north_south"]:checked').value;
 
-  if (longD > 0) {
-    document.getElementById('long').value = longD + ((longM + (longS/60))/60);
-  } else {
-    document.getElementById('long').value = longD - ((longM + (longS/60))/60);
+  if (longRegion == "E") {
+    if (longD >= 0) {
+      document.getElementById('long').value = longD + ((longM + (longS / 60)) / 60);
+      document.getElementById('notes-long').className = "";
+      document.getElementById('notes-long').innerHTML = "";
+    } else {
+      document.getElementById('long').value = ((longD * -1) + ((longM + (longS / 60)) / 60));
+      document.getElementById('notes-long').className = "text-danger font-italic mt-2";
+      document.getElementById('notes-long').innerHTML = "Bujur timur tidak mungkin bernilai negatif";
+    }
+  } else if (longRegion == "W") {
+    if (longD >= 0) {
+      document.getElementById('long').value = (longD + ((longM + (longS / 60)) / 60)) * -1;
+      document.getElementById('notes-long').className = "text-danger font-italic mt-2";
+      document.getElementById('notes-long').innerHTML = "Bujur barat tidak mungkin bernilai positif";
+    } else {
+      document.getElementById('long').value = ((longD * -1) + ((longM + (longS / 60)) / 60)) * -1;
+      document.getElementById('notes-long').className = "";
+      document.getElementById('notes-long').innerHTML = "";
+    }
   }
-  if (latD > 0) {
-    document.getElementById('lat').value = latD + ((latM + (latS/60))/60);
-  } else {
-    document.getElementById('lat').value = latD - ((latM + (latS/60))/60);
+
+  if (latRegion == "N") {
+    if (latD >= 0) {
+      document.getElementById('lat').value = latD + ((latM + (latS / 60)) / 60);
+      document.getElementById('notes-lat').className = "";
+      document.getElementById('notes-lat').innerHTML = "";
+    } else {
+      document.getElementById('lat').value = (latD * -1) + ((latM + (latS / 60)) / 60);
+      document.getElementById('notes-lat').className = "text-danger font-italic mt-2";
+      document.getElementById('notes-lat').innerHTML = "Lintang utara tidak mungkin bernilai negatif";
+    }
+  } else if (latRegion == "S") {
+    if (latD >= 0) {
+      document.getElementById('lat').value = (latD + ((latM + (latS / 60)) / 60)) * -1;
+      document.getElementById('notes-lat').className = "text-danger font-italic mt-2";
+      document.getElementById('notes-lat').innerHTML = "Lintang selatan tidak mungkin bernilai positif";
+    } else if (latD < 0) {
+      document.getElementById('lat').value = ((latD * -1) + ((latM + (latS / 60)) / 60)) * -1;
+      document.getElementById('notes-lat').className = "";
+      document.getElementById('notes-lat').innerHTML = "";
+    }
   }
 }
